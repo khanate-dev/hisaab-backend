@@ -19,12 +19,12 @@ const ExpenseCategorySchema = new mongoose.Schema(
 	}
 );
 
-IncomeCategory.pre('findOneAndDelete', function (next) {
+ExpenseCategory.pre('findOneAndDelete', function (next) {
 
-	const children = ['incomeBudget', 'income'];
+	const children = ['expenseBudget', 'expense'];
 
-	fkDeleteValidator('incomeCategory', children, this.getQuery()._id, next);
+	fkDeleteValidator('expenseCategory', children, this.getQuery()._id, next);
 
 });
 
-module.exports = ExpenseCategorySchema;
+module.exports = ExpenseCategory;

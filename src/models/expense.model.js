@@ -2,12 +2,19 @@ const mongoose = require( 'mongoose');
 
 const Schema = mongoose.Schema;
 
+const fkAddValidator = require('../helpers/fkAddValidator');
+
 const Expense = new mongoose.Schema(
 	{
-		expenseCategoryID: {
+		expenseCategory: {
 			type: Schema.Types.ObjectId,
 			ref: 'expenseCategory',
 			required: true,
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("expenseCategory"), id, 'expenseCategory')
+				),
+            },
 		},
 		date: {
 			type: Date,
@@ -21,10 +28,15 @@ const Expense = new mongoose.Schema(
 		description: {
 			type: String,
 		},
-		userID: {
+		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'user',
 			required: true,
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("user"), id, 'user')
+				),
+            },
 		},
 	},
 	{

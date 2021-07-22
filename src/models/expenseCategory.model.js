@@ -1,5 +1,7 @@
 const mongoose = require( 'mongoose');
 
+const fkDeleteValidator = require('../helpers/fkDeleteValidator');
+
 const ExpenseCategorySchema = new mongoose.Schema(
 	{
 		name: {
@@ -16,5 +18,13 @@ const ExpenseCategorySchema = new mongoose.Schema(
 		timestamps: true,
 	}
 );
+
+IncomeCategory.pre('findOneAndDelete', function (next) {
+
+	const children = ['incomeBudget', 'income'];
+
+	fkDeleteValidator('incomeCategory', children, this.getQuery()._id, next);
+
+});
 
 module.exports = ExpenseCategorySchema;

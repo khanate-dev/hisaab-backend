@@ -8,7 +8,7 @@ const {
 	matchPassword,
 	randomString,
 } =  require('../helpers/encryption.js');
-const CustomError = require( '../helpers/CustomError');
+const CustomError = require( '../helpers/errors/CustomError');
 const { jwtSecret } = require( '../helpers/constants');
 
 const signup = (req, res) => postUser(req, res, 'user');

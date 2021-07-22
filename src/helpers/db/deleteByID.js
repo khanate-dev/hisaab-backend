@@ -17,7 +17,7 @@ const deleteByID = (req, res, tableName) => {
 	Model
 		.findByIdAndDelete(req.params.id)
 		.then(doc => res.status(200).json(doc))
-		.catch(err => res.status(500).json(err));
+		.catch(err => res.status(err.code ?? 500).json(err.body ?? err));
 
 };
 

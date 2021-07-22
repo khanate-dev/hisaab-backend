@@ -20,11 +20,11 @@ const IncomeCategory = new mongoose.Schema(
 );
 
 
-IncomeCategory.pre('remove', async next => {
+IncomeCategory.pre('findOneAndDelete', function (next) {
 
 	const children = ['incomeBudget', 'income'];
 
-	await fkDeleteValidator('incomeCategory', children, this._id);
+	fkDeleteValidator('incomeCategory', children, this.getQuery()._id, next);
 
 });
 

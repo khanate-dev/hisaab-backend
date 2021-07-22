@@ -7,7 +7,7 @@ const routes = require('./src/routes');
 
 const { verifyToken } = require('./src/controllers/auth.controller');
 
-const { consoleFGGreen, consoleFGReset, consoleFGMagenta } = require('./src/helpers/constants');
+const { consoleFGGreen, consoleFGReset } = require('./src/helpers/constants');
 
 const app = express();
 
@@ -21,7 +21,7 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use((req, _res, next) => {
-	console.log(`${new Date().toString()} => ${consoleFGGreen}${req.method}${consoleFGReset} ${req.originalUrl}${consoleFGMagenta}`, req.body, consoleFGReset);
+	console.log(`${new Date().toString()} => ${consoleFGGreen}${req.method}${consoleFGReset} ${req.originalUrl}`, req.body);
 	next();
 });
 

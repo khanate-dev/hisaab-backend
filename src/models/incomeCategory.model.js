@@ -13,6 +13,10 @@ const IncomeCategory = new mongoose.Schema(
 		description: {
 			type: String,
 		},
+		deprecated: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{
 		timestamps: true,

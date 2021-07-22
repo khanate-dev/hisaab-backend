@@ -41,7 +41,8 @@ const Income = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
-	}
+		runValidators: true,
+	},
 );
 
 module.exports = Income;

@@ -2,7 +2,7 @@ const mongoose = require( 'mongoose');
 
 const fkDeleteValidator = require('../helpers/fkDeleteValidator');
 
-const ExpenseCategorySchema = new mongoose.Schema(
+const ExpenseCategory = new mongoose.Schema(
 	{
 		name: {
 			type: String,
@@ -12,6 +12,10 @@ const ExpenseCategorySchema = new mongoose.Schema(
 		},
 		description: {
 			type: String,
+		},
+		deprecated: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	{

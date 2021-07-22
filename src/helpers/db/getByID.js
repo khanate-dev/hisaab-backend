@@ -12,9 +12,9 @@ const getByID = (req, res, tableName) => {
 		return res.status(400).send('Given ID Is Not Valid');
 	}
 
-	const fkFields = Object.keys(Model.schema.obj).filter(key => Model.schema.obj[key].ref);
-
 	const Model = mongoose.model(tableName);
+
+	const fkFields = Object.keys(Model.schema.obj).filter(key => Model.schema.obj[key].ref);
 
 	Model
 		.findById(req.params.id)

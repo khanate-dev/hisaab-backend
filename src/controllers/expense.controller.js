@@ -4,15 +4,15 @@ const deleteByID = require( '../helpers/db/deleteByID');
 const updateByID = require( '../helpers/db/updateByID');
 const create = require( '../helpers/db/create');
 
-const get = (req, res) => getAll(req, res, 'expenseBudget');
+const get = (req, res) => getAll(req, res, 'expense');
 
-const getOne = (req, res) => getByID(req, res, 'expenseBudget');
+const getOne = (req, res) => getByID(req, res, 'expense');
 
-const put = (req, res) => updateByID(req, res, 'expenseBudget');
+const put = (req, res) => updateByID(req, res, 'expense');
 
-const remove = (req, res) => deleteByID(req, res, 'expenseBudget');
+const remove = (req, res) => deleteByID(req, res, 'expense');
 
-const post = (req, res) => create(req, res, 'expenseBudget');
+const post = (req, res) => create(req, res, 'expense');
 
 module.exports = {
 	get,

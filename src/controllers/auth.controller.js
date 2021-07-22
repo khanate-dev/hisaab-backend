@@ -1,0 +1,144 @@
+const jwt = require( 'jsonwebtoken');
+
+const { mongoose } = require('../connection');
+
+const {
+	matchPassword,
+	randomString,
+} =  require('../helpers/encryption.js');
+const CustomError = require( '../helpers/CustomError');
+const create = require( '../helpers/db/create');
+const { jwtSecret } = require( '../helpers/constants');
+
+const signup = (req, res) => create(req, res, 'user');
+
+const login = (req, res) => {
+
+	if (!req.body.username) {
+		return res.status(400).send('Missing URL Parameter Username.');
+	}
+	else if (!req.body.password) {
+		return res.status(400).send('Missing URL Parameter Password.');
+	}
+	else if (req.cookies.JWToken) {
+		return res.status(400).send('Already Signed In.');
+	}
+
+	const UserModel = mongoose.model('user');
+
+	UserModel
+		.findOne({
+			username: req.body.username,
+		})
+		.then((user) => {
+
+			const match = matchPassword(req.body.password, user.password, user.salt);
+
+			if (match) {
+
+				const csrf = randomString(25);
+
+				jwt.sign(
+					{ user: user.username, csrf: csrf },
+					jwtSecret,
+					{ expiresIn: 60 },
+					(error, token) => {
+
+
+						if (error) {
+							throw new CustomError(500, error);
+						}
+						else {
+
+							const cookieOptions = {
+								httpOnly: true,
+								sameSite: 'Strict'
+							};
+
+							res.header("csrf", csrf);
+
+							res.cookie("JWToken", token, cookieOptions).status(200).send(`Logged In As ${req.body.username}`);
+
+						}
+
+					});
+
+			}
+			else {
+				throw new CustomError(401, "Username Password Combo Incorrect");
+			}
+
+		})
+		.catch(error => {
+
+			if (error instanceof CustomError) {
+
+				if (error.code === 400 || error.code === 401) {
+					res.status(error.code).send(error.body);
+				}
+				else {
+					res.status(error.code).json(error.body);
+				}
+
+			}
+			else {
+				res.status(500).send('Problem With The Request!');
+			}
+
+		});
+
+};
+
+const logout = (req, res) => {
+
+	if (!req.cookies.JWToken) {
+		return res.status(403).send('Not Signed In.');
+	}
+
+	res.clearCookie("JWToken").status(200).send("Logged Out.");
+
+};
+
+const verifyToken = (req, res, next) => {
+
+	if (req.originalUrl.startsWith('/auth')) {
+		return next();
+	}
+	else if (!req.cookies.JWToken) {
+		return res.status(403).send("Not Signed In.");
+	}
+
+	jwt.verify(
+		req.cookies.JWToken,
+		jwtSecret,
+		(error, token) => {
+
+			if (error) {
+
+				if (error.name === "TokenExpiredError") {
+					res.status(500).clearCookie("JWToken").send('Login Expired! Login To Continue.');
+				}
+				else {
+					res.status(500).json(error);
+				}
+
+				return;
+
+			}
+
+			if (req.method !== 'GET' && token.csrf !== req.headers.csrf) {
+				return res.status(403).json("Missing Or Incorrect CSRF Token");
+			}
+
+			next();
+
+		});
+
+};
+
+module.exports = {
+	signup,
+	login,
+	logout,
+	verifyToken,
+};

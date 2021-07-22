@@ -8,18 +8,15 @@ const { mongoose } = require( '../../connection');
  */
 const deleteByID = (req, res, tableName) => {
 
-	if (!req.params.id) {
-		res.status(400).send('no id provided');
-	}
-	else if (typeof req.params.id !== 'number') {
-		res.status(400).send('id must be a number');
+	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+		return res.status(400).send('Given ID Is Not Valid');
 	}
 
 	const Model = mongoose.model(tableName)
 
 	Model
 		.findByIdAndDelete(req.params.id)
-		.then(doc => res.json(doc))
+		.then(doc => res.status(200).json(doc))
 		.catch(err => res.status(500).json(err));
 
 };

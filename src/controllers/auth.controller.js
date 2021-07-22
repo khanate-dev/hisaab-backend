@@ -2,35 +2,44 @@ const jwt = require( 'jsonwebtoken');
 
 const { mongoose } = require('../connection');
 
+const { post : postUser } = require('./user.controller.js');
+
 const {
 	matchPassword,
 	randomString,
 } =  require('../helpers/encryption.js');
 const CustomError = require( '../helpers/CustomError');
-const create = require( '../helpers/db/create');
 const { jwtSecret } = require( '../helpers/constants');
 
-const signup = (req, res) => create(req, res, 'user');
+const signup = (req, res) => postUser(req, res, 'user');
 
 const login = (req, res) => {
 
-	if (!req.body.username) {
-		return res.status(400).send('Missing URL Parameter Username.');
+	if (!req.body.user) {
+		return res.status(400).send('Missing URL Parameter User');
 	}
 	else if (!req.body.password) {
-		return res.status(400).send('Missing URL Parameter Password.');
+		return res.status(400).send('Missing URL Parameter Password');
 	}
 	else if (req.cookies.JWToken) {
-		return res.status(400).send('Already Signed In.');
+		return res.status(400).send('Already Signed In');
 	}
 
 	const UserModel = mongoose.model('user');
+	console.log(req.body);
 
 	UserModel
 		.findOne({
-			username: req.body.username,
+			$or: [
+				{ username: req.body.user },
+				{ email: req.body.user }
+			],
 		})
 		.then((user) => {
+
+			if (!user) {
+				return res.status(401).send('User Does Not Exist');
+			}
 
 			const match = matchPassword(req.body.password, user.password, user.salt);
 
@@ -41,7 +50,7 @@ const login = (req, res) => {
 				jwt.sign(
 					{ user: user.username, csrf: csrf },
 					jwtSecret,
-					{ expiresIn: 60 },
+					{ expiresIn: '7d' },
 					(error, token) => {
 
 
@@ -57,7 +66,7 @@ const login = (req, res) => {
 
 							res.header("csrf", csrf);
 
-							res.cookie("JWToken", token, cookieOptions).status(200).send(`Logged In As ${req.body.username}`);
+							res.cookie("JWToken", token, cookieOptions).status(200).send(`Logged In As ${user.username}`);
 
 						}
 
@@ -71,6 +80,7 @@ const login = (req, res) => {
 		})
 		.catch(error => {
 
+			console.error(error)
 			if (error instanceof CustomError) {
 
 				if (error.code === 400 || error.code === 401) {
@@ -82,7 +92,7 @@ const login = (req, res) => {
 
 			}
 			else {
-				res.status(500).send('Problem With The Request!');
+				res.status(500).send('Problem With The Request');
 			}
 
 		});
@@ -92,10 +102,10 @@ const login = (req, res) => {
 const logout = (req, res) => {
 
 	if (!req.cookies.JWToken) {
-		return res.status(403).send('Not Signed In.');
+		return res.status(403).send('Not Signed In');
 	}
 
-	res.clearCookie("JWToken").status(200).send("Logged Out.");
+	res.clearCookie("JWToken").status(200).send("Logged Out");
 
 };
 
@@ -105,7 +115,7 @@ const verifyToken = (req, res, next) => {
 		return next();
 	}
 	else if (!req.cookies.JWToken) {
-		return res.status(403).send("Not Signed In.");
+		return res.status(403).send("Not Signed In");
 	}
 
 	jwt.verify(
@@ -116,7 +126,7 @@ const verifyToken = (req, res, next) => {
 			if (error) {
 
 				if (error.name === "TokenExpiredError") {
-					res.status(500).clearCookie("JWToken").send('Login Expired! Login To Continue.');
+					res.status(500).clearCookie("JWToken").send('Login Expired! Login To Continue');
 				}
 				else {
 					res.status(500).json(error);

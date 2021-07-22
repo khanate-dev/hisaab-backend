@@ -1,11 +1,14 @@
-const mongoose = require( 'mongoose');
+const mongoose = require('mongoose');
 
-const IncomeCategorySchema = new mongoose.Schema(
+const fkDeleteValidator = require('../helpers/fkDeleteValidator');
+
+const IncomeCategory = new mongoose.Schema(
 	{
 		name: {
 			type: String,
 			required: true,
 			unique: true,
+			immutable: true,
 		},
 		description: {
 			type: String,
@@ -16,4 +19,13 @@ const IncomeCategorySchema = new mongoose.Schema(
 	}
 );
 
-module.exports = IncomeCategorySchema;
+
+IncomeCategory.pre('remove', async next => {
+
+	const children = ['incomeBudget', 'income'];
+
+	await fkDeleteValidator('incomeCategory', children, this._id);
+
+});
+
+module.exports = IncomeCategory;

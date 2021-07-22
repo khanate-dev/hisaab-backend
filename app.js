@@ -7,6 +7,8 @@ const routes = require('./src/routes');
 
 const { verifyToken } = require('./src/controllers/auth.controller');
 
+const { consoleFGGreen, consoleFGReset, consoleFGMagenta } = require('./src/helpers/constants');
+
 const app = express();
 
 connectDB();
@@ -19,7 +21,7 @@ app.use(cors({
 app.use(cookieParser());
 
 app.use((req, _res, next) => {
-	console.log(`${new Date().toString()} => ${req.originalUrl}`, req.body);
+	console.log(`${new Date().toString()} => ${consoleFGGreen}${req.method}${consoleFGReset} ${req.originalUrl}${consoleFGMagenta}`, req.body, consoleFGReset);
 	next();
 });
 
@@ -29,9 +31,9 @@ app.use(routes());
 
 // Handler for Error 404 - Resource Not Found
 app.use((_req, res, _next) => {
-	res.status(404).send('We Think You Are Lost!');
+	res.status(404).send('Resource Not Found!');
 });
 
 const PORT = process.env.PORT || 4002;
 
-app.listen(PORT, () => console.info(`Server Has Started on ${PORT}`));
+app.listen(PORT, () => console.info(`Server Has Started on ${consoleFGGreen}${PORT}${consoleFGReset}`));

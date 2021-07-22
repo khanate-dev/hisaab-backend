@@ -2,21 +2,31 @@ const mongoose = require( 'mongoose');
 
 const Schema = mongoose.Schema;
 
+const fkAddValidator = require('../helpers/fkAddValidator');
+
 const IncomeBudget = new mongoose.Schema(
 	{
-		incomeCategoryID: {
+		incomeCategory: {
 			type: Schema.Types.ObjectId,
 			ref: 'incomeCategory',
 			required: true,
+			immutable: true,
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("incomeCategory"), id, 'incomeCategory')
+				),
+            },
 		},
 		year: {
 			type: Number,
 			required: true,
+			immutable: true,
 			min: 0,
 		},
 		month: {
 			type: Number,
 			required: true,
+			immutable: true,
 			min: 1,
 			max: 12,
 		},
@@ -28,10 +38,16 @@ const IncomeBudget = new mongoose.Schema(
 		description: {
 			type: String,
 		},
-		userID: {
+		user: {
 			type: Schema.Types.ObjectId,
 			ref: 'user',
 			required: true,
+			immutable: true,
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("user"), id, 'user')
+				),
+            },
 		},
 	},
 	{
@@ -48,6 +64,6 @@ IncomeBudget.index(
 	{
 		unique: true,
 	},
-)
+);
 
 module.exports = IncomeBudget;

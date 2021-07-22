@@ -12,8 +12,32 @@ const create = (req, res, tableName) => {
 
 	Model
 		.create(req.body)
-		.then(doc => res.json(doc))
-		.catch(err => res.status(500).json(err));
+		.then(doc => res.status(201).json(doc))
+		.catch(err => {
+
+			if (err.name === 'MongoError' && err.code === 11000) {
+
+				const unique = Object.keys(err.keyValue).map(
+					key => ({ key: key, value: err.keyValue[key] })
+				);
+
+				const message = `\
+					${unique.length > 1 ? 'Combination Of [' : 'Field '}\
+					${unique.map(row => row.key).join(', ')}\
+					${unique.length > 1 ? ']' : ''}\
+					Must Be Unique.\
+					${unique.length > 1 ? '[' : ''}\
+					${unique.map(row => `\`${row.value}\``).join(', ')}\
+					${unique.length > 1 ? ']' : ''}\
+					Already Exists.\
+				`;
+
+				return res.status(409).send(message);
+			}
+
+			res.status(500).json(err);
+
+		});
 
 };
 

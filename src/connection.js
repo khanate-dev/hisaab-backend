@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 
+const { consoleFGGreen, consoleFGReset, consoleFGMagenta } = require('./helpers/constants');
+
 const server = 'cluster0.nyg26.mongodb.net'
 	, database = 'hisaab'
 	, user = 'admin'
@@ -13,6 +15,7 @@ const connectDB = () => {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useCreateIndex: true,
+			useFindAndModify: false,
 			writeConcern: {
 				j: true,
 			},
@@ -42,7 +45,7 @@ const mapModels = () => {
 
 		const modelName = model.split('.')[0];
 
-		console.log(`Model ${modelName} Mapped To /model/${model}.js`);
+		console.log(`Model ${consoleFGGreen}${modelName}${consoleFGReset} Mapped To ${consoleFGMagenta}/model/${model}.js${consoleFGReset}`);
 
 		mongoose.model(modelName, require(`./models/${model}`));
 

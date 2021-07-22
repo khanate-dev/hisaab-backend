@@ -6,6 +6,7 @@ const ExpenseCategorySchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			unique: true,
+			immutable: true,
 		},
 		description: {
 			type: String,

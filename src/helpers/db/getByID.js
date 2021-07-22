@@ -8,18 +8,19 @@ const { mongoose } = require( '../../connection');
  */
 const getByID = (req, res, tableName) => {
 
-	if (!req.params.id) {
-		res.status(400).send('no id provided');
+	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+		return res.status(400).send('Given ID Is Not Valid');
 	}
-	else if (typeof req.params.id !== 'number') {
-		res.status(400).send('id must be a number');
-	}
+
+	const fkFields = Object.keys(Model.schema.obj).filter(key => Model.schema.obj[key].ref);
 
 	const Model = mongoose.model(tableName);
 
 	Model
 		.findById(req.params.id)
-		.then(doc => res.json(doc))
+		.select('-__v -createdAt -updatedAt')
+		.populate(fkFields.join(' '), '-password -salt -__v -createdAt -updatedAt -email')
+		.then(doc => res.status(200).json(doc))
 		.catch(err => res.status(500).json(err));
 
 };

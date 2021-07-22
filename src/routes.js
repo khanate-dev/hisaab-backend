@@ -3,6 +3,8 @@ const fs = require( 'fs');
 
 const router = express.Router();
 
+const { consoleFGGreen, consoleFGReset, consoleFGMagenta } = require('./helpers/constants');
+
 const mapRoutes = () => {
 
 	const routeList = fs.readdirSync('./src/routes', {
@@ -16,7 +18,7 @@ const mapRoutes = () => {
 		const routeName = route.split('.')[0]
 			, routeFile = route.replace('.js', '');
 
-		console.log(`Route /${routeName} Mapped To /routes/${routeFile}.js`);
+		console.log(`Route\t${consoleFGGreen}${routeName}${consoleFGReset} Mapped To ${consoleFGMagenta}/routes/${routeFile}.js${consoleFGReset}`);
 
 		return router.use(`/${routeName}`, require(`./routes/${routeFile}`));
 

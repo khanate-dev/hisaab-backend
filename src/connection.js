@@ -3,18 +3,13 @@ const fs = require('fs');
 
 const { consoleFGGreen, consoleFGReset, consoleFGMagenta } = require('./helpers/constants');
 
-const server = 'cluster0.nyg26.mongodb.net'
-	, database = 'hisaab'
-	, user = 'admin'
-	, password = 'sTUotTMB41P9JWcc';
-
-const connectionString = (
-	process.env.MONGO_CONNECTION ?? (
-		`mongodb+srv://${user}:${password}@${server}/${database}?retryWrites=true&w=majority`
-	)
-);
-
 const connectDB = () => {
+
+	const connectionString = process.env.MONGO_CONNECTION;
+
+	if (!connectionString) {
+		console.error(`No Connection String Found! Can Not Connect To MongoDB.`);
+	}
 
 	mongoose
 		.connect(connectionString, {

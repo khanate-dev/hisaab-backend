@@ -8,10 +8,16 @@ const server = 'cluster0.nyg26.mongodb.net'
 	, user = 'admin'
 	, password = 'sTUotTMB41P9JWcc';
 
+const connectionString = (
+	process.env.MONGO_CONNECTION ?? (
+		`mongodb+srv://${user}:${password}@${server}/${database}?retryWrites=true&w=majority`
+	)
+);
+
 const connectDB = () => {
 
 	mongoose
-		.connect(`mongodb+srv://${user}:${password}@${server}/${database}?retryWrites=true&w=majority`, {
+		.connect(connectionString, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			useCreateIndex: true,

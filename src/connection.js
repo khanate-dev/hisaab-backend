@@ -8,7 +8,7 @@ const connectDB = () => {
 	const connectionString = process.env.MONGO_CONNECTION;
 
 	if (!connectionString) {
-		console.error(`No Connection String Found! Can Not Connect To MongoDB.`);
+		return console.error(`No Connection String Found! Can Not Connect To MongoDB.`);
 	}
 
 	mongoose

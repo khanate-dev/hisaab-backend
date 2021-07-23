@@ -13,11 +13,9 @@ const updateByID = (req, res, tableName) => {
 	}
 
 	const Model = mongoose.model(tableName);
-	console.log(tableName);
-	console.log(req.body);
-	console.log(req.params.id);
+
 	Model
-		.findByIdAndUpdate(req.params.id, req.body, { new: true })
+		.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true, })
 		.then(doc => res.status(200).json(doc))
 		.catch(err => {
 

@@ -41,7 +41,6 @@ const Income = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
-		runValidators: true,
 	},
 );
 

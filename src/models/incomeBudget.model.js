@@ -52,7 +52,6 @@ const IncomeBudget = new mongoose.Schema(
 	},
 	{
 		timestamps: true,
-		runValidators: true,
 	},
 );
 

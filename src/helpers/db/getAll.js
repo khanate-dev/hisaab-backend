@@ -17,7 +17,6 @@ const getAll = (request, response, tableName) => {
 		.select('-__v -createdAt -updatedAt')
 		.sort(request.sort)
 		.populate(fkFields.join(' '), '-password -salt -__v -createdAt -updatedAt -email')
-		.order
 		.then(doc => response.status(200).json(doc))
 		.catch(err => response.status(500).json(err));
 

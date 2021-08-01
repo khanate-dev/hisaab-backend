@@ -4,7 +4,16 @@ const deleteByID = require( '../helpers/db/deleteByID');
 const updateByID = require( '../helpers/db/updateByID');
 const create = require( '../helpers/db/create');
 
-const get = (req, res) => getAll(req, res, 'expense');
+const get = (req, res) => {
+
+	const request = {
+		...req,
+		sort: { date: 'desc'},
+	};
+
+	getAll(request, res, 'expense');
+
+};
 
 const getOne = (req, res) => getByID(req, res, 'expense');
 

@@ -2,29 +2,29 @@ const { mongoose } = require('../../connection');
 
 /**
  * gets the row given by id from the table
- * @param {*} req - the route's request paramter
- * @param {*} res - the route's response paramter
+ * @param {*} request - the route's request paramter
+ * @param {*} response - the route's response paramter
  * @param {string} tableName - name of the current table
  */
-const updateByID = (req, res, tableName) => {
+const updateByID = (request, response, tableName) => {
 
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		return res.status(400).send('Given ID Is Not Valid');
+	if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
+		return response.status(400).send('Given ID Is Not Valid');
 	}
 
 	const Model = mongoose.model(tableName);
 
 	Model
-		.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true, })
-		.then(doc => res.status(200).json(doc))
+		.findByIdAndUpdate(request.params.id, request.body, { new: true, runValidators: true, })
+		.then(doc => response.status(200).json(doc))
 		.catch(err => {
 
 			if (err.name === 'MongoError' && err.code === 11000) {
 				const key = Object.keys(err.keyValue)[0];
-				return res.status(409).send(`Field ${key} Must Be Unique. Value \`${err.keyValue[key]}\` Already Exists`);
+				return response.status(409).send(`Field ${key} Must Be Unique. Value \`${err.keyValue[key]}\` Already Exists`);
 			}
 
-			res.status(500).json(err);
+			response.status(500).json(err);
 
 		});
 

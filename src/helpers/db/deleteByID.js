@@ -2,22 +2,22 @@ const { mongoose } = require( '../../connection');
 
 /**
  * deletes the row given by id from the table
- * @param {*} req - the route's request paramter
- * @param {*} res - the route's response paramter
+ * @param {*} request - the route's request paramter
+ * @param {*} response - the route's response paramter
  * @param {*} tableName - name of the current table
  */
-const deleteByID = (req, res, tableName) => {
+const deleteByID = (request, response, tableName) => {
 
-	if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-		return res.status(400).send('Given ID Is Not Valid');
+	if (!mongoose.Types.ObjectId.isValid(request.params.id)) {
+		return response.status(400).send('Given ID Is Not Valid');
 	}
 
 	const Model = mongoose.model(tableName)
 
 	Model
-		.findByIdAndDelete(req.params.id)
-		.then(doc => res.status(200).json(doc))
-		.catch(err => res.status(err.code ?? 500).json(err.body ?? err));
+		.findByIdAndDelete(request.params.id)
+		.then(doc => response.status(200).json(doc))
+		.catch(err => response.status(err.code ?? 500).json(err.body ?? err));
 
 };
 

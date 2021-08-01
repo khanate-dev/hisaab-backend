@@ -1,4 +1,7 @@
+const dayjs = require('dayjs');
+
 const getAll = require( '../helpers/db/getAll');
+const getByDate = require('../helpers/db/getByDate');
 const getByID = require( '../helpers/db/getByID');
 const deleteByID = require( '../helpers/db/deleteByID');
 const updateByID = require( '../helpers/db/updateByID');
@@ -14,6 +17,8 @@ const get = (req, res) => {
 	getAll(request, res, 'expense');
 
 };
+
+const getByDateRoute = (req, res) => getByDate(req, res, 'expense');
 
 const getOne = (req, res) => getByID(req, res, 'expense');
 

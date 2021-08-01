@@ -2,17 +2,17 @@ const { mongoose } = require( '../../connection');
 
 /**
  * gets the row given by id from the table
- * @param {*} req - the route's request paramter
- * @param {*} res - the route's response paramter
+ * @param {*} request - the route's request paramter
+ * @param {*} response - the route's response paramter
  * @param {string} tableName - name of the current table
  */
-const create = (req, res, tableName) => {
+const create = (request, response, tableName) => {
 
 	const Model = mongoose.model(tableName);
 
 	Model
-		.create(req.body)
-		.then(doc => res.status(201).json(doc))
+		.create(request.body)
+		.then(doc => response.status(201).json(doc))
 		.catch(err => {
 
 			if (err.name === 'MongoError' && err.code === 11000) {
@@ -32,10 +32,10 @@ const create = (req, res, tableName) => {
 					Already Exists.\
 				`;
 
-				return res.status(409).send(message);
+				return response.status(409).send(message);
 			}
 
-			res.status(500).json(err);
+			response.status(500).json(err);
 
 		});
 

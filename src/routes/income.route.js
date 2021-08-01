@@ -9,6 +9,8 @@ router.post('/', controller.post);
 
 router.get('/:id', controller.getOne);
 
+router.get('/byDate/:date', controller.getByDate);
+
 router.get('/', controller.get);
 
 router.put('/:id', controller.put);

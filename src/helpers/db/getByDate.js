@@ -1,5 +1,7 @@
 const dayjs = require('dayjs');
-const { param } = require('../../routes/income.route');
+
+dayjs.extend(require('dayjs/plugin/objectSupport'));
+
 const getAll = require('./getAll');
 
 /**
@@ -18,26 +20,57 @@ const getAll = require('./getAll');
  */
 const getByDate = (request, response, tableName) => {
 
-	const params = request.params
+	const paramsParsed = JSON.parse(request.params.date)
+		, params = {
+			...paramsParsed,
+			month: paramsParsed.month && paramsParsed.month - 1,
+			from: paramsParsed.from && {
+				...paramsParsed.from,
+				month: paramsParsed.from?.month && paramsParsed.from.month - 1,
+			},
+			to: paramsParsed.to && {
+				...paramsParsed.to,
+				month: paramsParsed.to?.month && paramsParsed.to.month - 1,
+			},
+		}
 		, currentDate = dayjs()
 		, from = {
-			year: params.year ?? params.from.year ?? currentDate.year(),
-			month: params.month - 1 ??  params.from.month - 1 ?? (params.to && !params.from) ? currentDate.month() : 0,
-			day: params.day ?? params.from.day ?? (params.to && !params.from) ? currentDate.date() : 1,
+			year: params.year ?? params.from?.year ?? currentDate.year(),
+			month: params.month ??  params.from?.month ?? (
+				(params.to && !params.from)
+					? currentDate.month()
+					: 0
+			),
+			day: params.day ?? params.from?.day ?? (
+				(params.to && !params.from)
+					? currentDate.date()
+					: 1
+			),
 		}
 		, to = {
-			year: params.year ?? params.to.year ?? currentDate.year(),
-			month: params.month - 1 ?? params.to.month - 1 ?? (params.from && !params.to) ? currentDate.month() : 11,
-			day: params.day ?? params.to.day ?? (param.from && !params.to) ? currentDate.date() : 31,
+			year: params.year ?? params.to?.year ?? currentDate.year(),
+			month: params.month ?? params.to?.month ?? (
+				(params.from && !params.to)
+					? currentDate.month()
+					: 11
+			),
+			day: params.day ?? params.to?.day ?? (
+				(params.from && !params.to)
+					? currentDate.date()
+					: 31
+			),
 		}
 		, startDate = dayjs(from)
 		, endDate = dayjs(to);
 
 	const requestObject = {
 		...request,
-		date: {
-			'$gte': startDate,
-			'$lte': endDate,
+		query: {
+			...request.query,
+			date: {
+				'$gte': startDate.format('YYYY-MM-DD'),
+				'$lte': endDate.format('YYYY-MM-DD'),
+			},
 		},
 		sort: { date: 'desc'},
 	};

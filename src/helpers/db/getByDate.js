@@ -28,7 +28,7 @@ const getByDate = (request, response, tableName) => {
 		, to = {
 			year: params.year ?? params.to.year ?? currentDate.year(),
 			month: params.month ?? params.to.month ?? (params.from && !params.to) ? currentDate.month() : 11,
-			day: params.day ?? params.to.day ?? (param.from && !params.to) ? currentDate.date() ? 31,
+			day: params.day ?? params.to.day ?? (param.from && !params.to) ? currentDate.date() : 31,
 		}
 		, startDate = dayjs(from)
 		, endDate = dayjs(to);

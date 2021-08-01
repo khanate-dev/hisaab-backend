@@ -30,6 +30,7 @@ const post = (req, res) => create(req, res, 'expense');
 
 module.exports = {
 	get,
+	getByDate: getByDateRoute,
 	getOne,
 	put,
 	remove,

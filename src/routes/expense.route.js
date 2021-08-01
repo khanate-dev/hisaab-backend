@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post('/', controller.post);
 
+router.get('/byDate/:date', controller.getByDate);
+
 router.get('/:id', controller.getOne);
 
 router.get('/', controller.get);

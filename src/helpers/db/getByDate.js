@@ -33,7 +33,7 @@ const getByDate = (request, response, tableName) => {
 		, startDate = dayjs(from)
 		, endDate = dayjs(to);
 
-	const request = {
+	const requestObject = {
 		...request,
 		date: {
 			'$gte': startDate,
@@ -42,7 +42,7 @@ const getByDate = (request, response, tableName) => {
 		sort: { date: 'desc'},
 	};
 
-	getAll(request, response, tableName);
+	getAll(requestObject, response, tableName);
 
 };
 

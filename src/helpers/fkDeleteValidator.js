@@ -12,7 +12,11 @@ module.exports = async (modelName, children, id, next) => {
 
 	const childResponse = await Promise.all(children.map(async childModelName => {
 
-		const existsInBudget = await mongoose.model(childModelName).findOne({ [modelName]: id });
+		const fields = mongoose.model(childModelName).schema.paths
+			, referringFields = fields.filter(field => field.options?.ref === modelName).map(field => field.path)
+			, orClause = referringFields.map(name => ({ [name]: id }));
+
+		const existsInBudget = await mongoose.model(childModelName).findOne({ $or: orClause });
 
 		if (existsInBudget) {
 			return childModelName
@@ -26,7 +30,6 @@ module.exports = async (modelName, children, id, next) => {
 
 	if (referenced.length > 0) {
 		const error = new ResponseError(409, `ID ${id} Is Referenced In \`${referenced.join(', ')}\` And Can Not Be Removed`);
-		console.log(error);
 		return next(error);
 	}
 

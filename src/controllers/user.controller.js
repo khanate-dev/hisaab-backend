@@ -1,6 +1,6 @@
 
 
-const { hashPassword } = require( '../helpers/encryption');
+const { getHashAndSalt } = require( '../helpers/encryption');
 const getAll = require( '../helpers/db/getAll');
 const getByID = require( '../helpers/db/getByID');
 const deleteByID = require( '../helpers/db/deleteByID');
@@ -15,10 +15,9 @@ const put = (req, res) => {
 
 	if (req.body.password) {
 
-		const password = hashPassword(req.body.password);
+		const password = getHashAndSalt(req.body.password);
 
-		req.body.password = password.hash;
-		req.body.salt = password.salt;
+		req.body.password = `${password.hash} ${password.salt}`;
 
 	}
 
@@ -32,10 +31,9 @@ const post = (req, res) => {
 
 	if (req.body.password) {
 
-		const password = hashPassword(req.body.password);
+		const password = getHashAndSalt(req.body.password);
 
-		req.body.password = password.hash;
-		req.body.salt = password.salt;
+		req.body.password = `${password.hash} ${password.salt}`;
 
 	}
 

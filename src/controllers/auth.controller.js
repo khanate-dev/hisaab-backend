@@ -5,8 +5,8 @@ const { mongoose } = require('../connection');
 const { post : postUser } = require('./user.controller.js');
 
 const {
-	matchPassword,
-	randomString,
+	isPasswordCorrect,
+	getRandomString,
 } =  require('../helpers/encryption.js');
 const CustomError = require( '../helpers/errors/CustomError');
 const { jwtSecret } = require( '../helpers/constants');
@@ -26,7 +26,6 @@ const login = (req, res) => {
 	}
 
 	const UserModel = mongoose.model('user');
-	console.log(req.body);
 
 	UserModel
 		.findOne({
@@ -41,11 +40,13 @@ const login = (req, res) => {
 				return res.status(401).send('User Does Not Exist');
 			}
 
-			const match = matchPassword(req.body.password, user.password, user.salt);
+			const [userPassword, userSalt] = user.password.split(' ');
+
+			const match = isPasswordCorrect(req.body.password, userPassword, userSalt);
 
 			if (match) {
 
-				const csrf = randomString(25);
+				const csrf = getRandomString(25);
 
 				jwt.sign(
 					{ user: user.username, csrf: csrf },

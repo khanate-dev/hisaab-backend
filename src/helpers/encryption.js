@@ -1,20 +1,41 @@
-const crypto = require( 'crypto');
+const crypto = require('crypto');
+
+const iterations = 1000000
+	, pepper = '4c62017971d2a8f68f86bc96b4b95e70556592c4';
+
+/**
+ * Given the plaintext password and the salt, creates and returns a hash.
+ * @param {string} password - the plaintext password
+ * @param {string} salt - the hexadecimal salt string
+ * @returns {string} - the generated hash as hexadecimal string
+ */
+const getHash = (password, salt) => {
+
+	const hmac = crypto.pbkdf2Sync(password.normalize(), pepper, iterations, 64, 'sha512').toString('hex')
+		, hash = crypto.pbkdf2Sync(hmac, salt, iterations, 64, 'sha512').toString('hex');
+
+	return hash;
+
+};
+
+/**
+ * Return a random hexadecimal string of the given length
+ * @param {number} length - the length of the returned string
+ * @returns {string} the generated hexadecimal random string
+ */
+const getRandomString = (length) => crypto.randomBytes(length / 2).toString('hex');
 
 /**
  * Creates a hash = require( the given string password and returns the hash and the salt
  * @param {string} password - the plain string password
  * @returns {{ hash: string, salt: string }} the generated hash and salt
  */
-const hashPassword = (password) => {
+const getHashAndSalt = (password) => {
 
-	const salt = crypto.randomBytes(128).toString('base64')
-		, iterations = 100000
-		, hash = crypto.pbkdf2Sync(password.normalize(), salt, iterations, 64, 'sha512').toString("hex");
+	const salt = getRandomString(64)
+		, hash = getHash(password, salt);
 
-	return {
-		hash: hash,
-		salt: salt
-	};
+	return { salt, hash };
 
 };
 
@@ -25,30 +46,10 @@ const hashPassword = (password) => {
  * @param {string} salt - the salt for the hash
  * @returns {boolean} does the match fit?
  */
-const matchPassword = (password, hash, salt) => {
-
-	const iterations = 100000;
-	return hash === crypto.pbkdf2Sync(password.normalize(), salt, iterations, 64, 'sha512').toString("hex");
-
-};
-
-/**
- * Return a random alphanumeric string of the given length
- * @param {number} length - the length of the returned string
- * @returns {string} the generated random string
- */
-const randomString = function(length) {
-
-	return crypto
-		.randomBytes(Math.ceil(((length || 50) * 3) / 4))
-		.toString('base64') // convert to base64 format
-		.slice(0, (length || 50)) // return required number of characters
-		.replace(/[\+\/]/g, '0') // replace '+' and '/' with '0'
-
-};
+const isPasswordCorrect = (password, hash, salt) => hash === getHash(password, salt);
 
 module.exports = {
-	hashPassword,
-	matchPassword,
-	randomString,
-}
+	getHashAndSalt,
+	isPasswordCorrect,
+	getRandomString,
+};

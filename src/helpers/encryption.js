@@ -9,7 +9,7 @@ const hashPassword = (password) => {
 
 	const salt = crypto.randomBytes(128).toString('base64')
 		, iterations = 100000
-		, hash = crypto.pbkdf2Sync(password, salt, iterations, 64, 'sha512').toString("hex");
+		, hash = crypto.pbkdf2Sync(password.normalize(), salt, iterations, 64, 'sha512').toString("hex");
 
 	return {
 		hash: hash,
@@ -28,7 +28,7 @@ const hashPassword = (password) => {
 const matchPassword = (password, hash, salt) => {
 
 	const iterations = 100000;
-	return hash === crypto.pbkdf2Sync(password, salt, iterations, 64, 'sha512').toString("hex");
+	return hash === crypto.pbkdf2Sync(password.normalize(), salt, iterations, 64, 'sha512').toString("hex");
 
 };
 
@@ -43,8 +43,7 @@ const randomString = function(length) {
 		.randomBytes(Math.ceil(((length || 50) * 3) / 4))
 		.toString('base64') // convert to base64 format
 		.slice(0, (length || 50)) // return required number of characters
-		.replace(/\+/g, '0') // replace '+' with '0'
-		.replace(/\//g, '0'); // replace '/' with '0'
+		.replace(/[\+\/]/g, '0') // replace '+' and '/' with '0'
 
 };
 

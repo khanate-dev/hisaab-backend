@@ -1,5 +1,7 @@
 const mongoose = require( 'mongoose');
 
+const Schema = mongoose.Schema;
+
 const fkDeleteValidator = require('../helpers/fkDeleteValidator');
 
 const ExpenseCategory = new mongoose.Schema(
@@ -16,6 +18,17 @@ const ExpenseCategory = new mongoose.Schema(
 		deprecated: {
 			type: Boolean,
 			default: false,
+		},
+		household: {
+			type: Schema.Types.ObjectId,
+			ref: 'household',
+			required: true,
+			immutable: true,
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("household"), id, 'household')
+				),
+            },
 		},
 	},
 	{

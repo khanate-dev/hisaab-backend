@@ -38,14 +38,32 @@ const IncomeBudget = new mongoose.Schema(
 		description: {
 			type: String,
 		},
-		user: {
+		addedBy: {
 			type: Schema.Types.ObjectId,
 			ref: 'user',
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("user"), id, 'user')
+				),
+            },
+		},
+		lastEditBy: {
+			type: Schema.Types.ObjectId,
+			ref: 'user',
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("user"), id, 'user')
+				),
+            },
+		},
+		household: {
+			type: Schema.Types.ObjectId,
+			ref: 'household',
 			required: true,
 			immutable: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("user"), id, 'user')
+					fkAddValidator(mongoose.model("household"), id, 'household')
 				),
             },
 		},
@@ -60,6 +78,7 @@ IncomeBudget.index(
 		incomeCategoryID: 1,
 		year: 1,
 		month: 1,
+		household: 1,
 	},
 	{
 		unique: true,

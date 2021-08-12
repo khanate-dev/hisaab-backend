@@ -28,13 +28,32 @@ const Expense = new mongoose.Schema(
 		description: {
 			type: String,
 		},
-		user: {
+		addedBy: {
 			type: Schema.Types.ObjectId,
 			ref: 'user',
-			required: true,
 			validate: {
                 validator: (id) => (
 					fkAddValidator(mongoose.model("user"), id, 'user')
+				),
+            },
+		},
+		lastEditBy: {
+			type: Schema.Types.ObjectId,
+			ref: 'user',
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("user"), id, 'user')
+				),
+            },
+		},
+		household: {
+			type: Schema.Types.ObjectId,
+			ref: 'household',
+			required: true,
+			immutable: true,
+			validate: {
+                validator: (id) => (
+					fkAddValidator(mongoose.model("household"), id, 'household')
 				),
             },
 		},

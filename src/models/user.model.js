@@ -1,5 +1,7 @@
 const mongoose = require( 'mongoose');
 
+const fkDeleteCascade = require('../helpers/fkDeleteCascade');
+
 const User = new mongoose.Schema( {
 	username: {
 		type: String,
@@ -17,10 +19,19 @@ const User = new mongoose.Schema( {
 		type: String,
 		required: true,
 	},
-	salt: {
+	role: {
 		type: String,
+		enum: ['admin', 'user'],
 		required: true,
 	},
+});
+
+User.pre('findOneAndDelete', function (next) {
+
+	const children = ['incomeBudget', 'income', 'expenseBudget', 'expense', 'userHousehold'];
+
+	fkDeleteCascade('user', children, this.getQuery()._id, next);
+
 });
 
 module.exports = User;

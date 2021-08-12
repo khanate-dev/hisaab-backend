@@ -73,4 +73,13 @@ UserHousehold.index(
 	},
 );
 
+UserHousehold.pre('findOneAndUpdate', function (next) {
+
+	const children = ['incomeBudget', 'income', 'expenseBudget', 'expense', 'userHousehold'];
+
+	fkDeleteCascade('user', children, this.getQuery()._id, next);
+
+});
+
+
 module.exports = UserHousehold;

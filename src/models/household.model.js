@@ -17,7 +17,7 @@ const Household = new mongoose.Schema( {
 	},
 });
 
-User.pre('findOneAndDelete', function (next) {
+Household.pre('findOneAndDelete', function (next) {
 
 	const children = ['incomeCategory', 'incomeBudget', 'income', 'expenseCategory', 'expenseBudget', 'expense', 'userHousehold'];
 

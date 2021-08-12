@@ -18,13 +18,13 @@ module.exports = async (modelName, children, id, next) => {
 
 		if (isDelete) {
 
-			await mongoose.model(childModelName).findOneAndDelete({ $or: orClause });
+			await mongoose.model(childModelName).deleteMany({ $or: orClause });
 
 		}
 		else {
 
 			const updateBody = referringFields.reduce((object, field) => ({ ...object, [field.name]: null }), {});
-			await mongoose.model(childModelName).findOneAndUpdate({ $or: orClause }, updateBody);
+			await mongoose.model(childModelName).updateMany({ $or: orClause }, updateBody);
 
 		}
 

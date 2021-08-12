@@ -14,6 +14,7 @@ const Household = new mongoose.Schema( {
 	inviteCode: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 });
 

@@ -7,7 +7,7 @@ const { post : postUser } = require('./user.controller.js');
 const {
 	isPasswordCorrect,
 	getRandomString,
-} =  require('../helpers/encryption.js');
+} =  require('../helpers/cryptography.js');
 const CustomError = require( '../helpers/errors/CustomError');
 const { jwtSecret } = require( '../helpers/constants');
 

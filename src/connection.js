@@ -56,8 +56,6 @@ const mapModels = () => {
 
 };
 
-connectDB();
-
 module.exports = {
 	mongoose,
 	connectDB,

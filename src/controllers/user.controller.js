@@ -1,6 +1,6 @@
 
 
-const { getHashAndSalt } = require( '../helpers/encryption');
+const { getHashAndSalt } = require( '../helpers/cryptography');
 const getAll = require( '../helpers/db/getAll');
 const getByID = require( '../helpers/db/getByID');
 const deleteByID = require( '../helpers/db/deleteByID');

@@ -5,6 +5,7 @@ if (process.env.NODE_ENV === 'production') {
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const mongoSanitize = require('express-mongo-sanitize');
 require('dotenv').config();
 
 const { connectDB } = require('./src/connection');
@@ -24,6 +25,7 @@ app.use(cors({
 	origin: '*.herokuapp.com',
 }));
 app.use(cookieParser());
+app.use(mongoSanitize());
 
 app.use((req, _res, next) => {
 	console.log(`${new Date().toString()} => ${consoleFGGreen}${req.method}${consoleFGReset} ${req.originalUrl}`, req.body);

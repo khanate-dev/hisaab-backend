@@ -13,7 +13,7 @@ const UserHousehold = new mongoose.Schema(
 			immutable: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("user"), id, 'user')
+					fkAddValidator(mongoose.model('user'), id, 'user')
 				),
             },
 		},
@@ -24,7 +24,7 @@ const UserHousehold = new mongoose.Schema(
 			immutable: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("household"), id, 'household')
+					fkAddValidator(mongoose.model('household'), id, 'household')
 				),
             },
 		},

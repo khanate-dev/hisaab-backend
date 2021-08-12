@@ -4,12 +4,10 @@ const { mongoose } = require('../connection');
 
 const { post : postUser } = require('./user.controller.js');
 
-const {
-	isPasswordCorrect,
-	getRandomString,
-} =  require('../helpers/cryptography.js');
+const { isPasswordCorrect, getRandomString } =  require('../helpers/cryptography.js');
 const CustomError = require( '../helpers/errors/CustomError');
 const { jwtSecret } = require( '../helpers/constants');
+const hasAccessPermission = require('../helpers/hasAccessPermission');
 
 const signup = (req, res) => postUser(req, res, 'user');
 
@@ -34,6 +32,7 @@ const login = (req, res) => {
 				{ email: req.body.user }
 			],
 		})
+		.populate('userHousehold', '-__v -createdAt -updatedAt')
 		.then((user) => {
 
 			if (!user) {
@@ -48,8 +47,15 @@ const login = (req, res) => {
 
 				const csrf = getRandomString(25);
 
+				const jwtObject = {
+					username: user.username,
+					role: user.role,
+					households: user.households,
+					csrf: csrf,
+				};
+
 				jwt.sign(
-					{ user: user.username, csrf: csrf },
+					jwtObject,
 					jwtSecret,
 					{ expiresIn: '7d' },
 					(error, token) => {
@@ -65,23 +71,23 @@ const login = (req, res) => {
 								sameSite: 'Strict'
 							};
 
-							res.header("csrf", csrf);
+							res.header('csrf', csrf);
 
-							res.cookie("JWToken", token, cookieOptions).status(200).send(`Logged In As ${user.username}`);
+							res.cookie('JWToken', token, cookieOptions).status(200).send(`Logged In As ${user.username}`);
 
 						}
 
-					});
+					}
+				);
 
 			}
 			else {
-				throw new CustomError(401, "Username Password Combo Incorrect");
+				throw new CustomError(401, 'Username Password Combo Incorrect');
 			}
 
 		})
 		.catch(error => {
 
-			console.error(error)
 			if (error instanceof CustomError) {
 
 				if (error.code === 400 || error.code === 401) {
@@ -106,7 +112,7 @@ const logout = (req, res) => {
 		return res.status(403).send('Not Signed In');
 	}
 
-	res.clearCookie("JWToken").status(200).send("Logged Out");
+	res.clearCookie('JWToken').status(200).send('Logged Out');
 
 };
 
@@ -116,7 +122,7 @@ const verifyToken = (req, res, next) => {
 		return next();
 	}
 	else if (!req.cookies.JWToken) {
-		return res.status(403).send("Not Signed In");
+		return res.status(403).send('Not Signed In');
 	}
 
 	jwt.verify(
@@ -124,10 +130,12 @@ const verifyToken = (req, res, next) => {
 		jwtSecret,
 		(error, token) => {
 
+			console.log(token);
+
 			if (error) {
 
-				if (error.name === "TokenExpiredError") {
-					res.status(500).clearCookie("JWToken").send('Login Expired! Login To Continue');
+				if (error.name === 'TokenExpiredError') {
+					res.status(500).clearCookie('JWToken').send('Login Expired! Login To Continue');
 				}
 				else {
 					res.status(500).json(error);
@@ -138,7 +146,11 @@ const verifyToken = (req, res, next) => {
 			}
 
 			if (req.method !== 'GET' && token.csrf !== req.headers.csrf) {
-				return res.status(403).json("Missing Or Incorrect CSRF Token");
+				return res.status(403).json('Missing Or Incorrect CSRF Token');
+			}
+
+			if (!hasAccessPermission(req, token)) {
+				return res.status(403).json('You Do Not Have Permission To Access This Route');
 			}
 
 			next();

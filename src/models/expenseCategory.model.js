@@ -26,7 +26,7 @@ const ExpenseCategory = new mongoose.Schema(
 			immutable: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("household"), id, 'household')
+					fkAddValidator(mongoose.model('household'), id, 'household')
 				),
             },
 		},

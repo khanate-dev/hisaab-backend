@@ -13,7 +13,7 @@ const IncomeBudget = new mongoose.Schema(
 			immutable: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("incomeCategory"), id, 'incomeCategory')
+					fkAddValidator(mongoose.model('incomeCategory'), id, 'incomeCategory')
 				),
             },
 		},
@@ -43,7 +43,7 @@ const IncomeBudget = new mongoose.Schema(
 			ref: 'user',
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("user"), id, 'user')
+					fkAddValidator(mongoose.model('user'), id, 'user')
 				),
             },
 		},
@@ -52,7 +52,7 @@ const IncomeBudget = new mongoose.Schema(
 			ref: 'user',
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("user"), id, 'user')
+					fkAddValidator(mongoose.model('user'), id, 'user')
 				),
             },
 		},
@@ -63,7 +63,7 @@ const IncomeBudget = new mongoose.Schema(
 			immutable: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("household"), id, 'household')
+					fkAddValidator(mongoose.model('household'), id, 'household')
 				),
             },
 		},

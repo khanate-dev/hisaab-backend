@@ -12,7 +12,7 @@ const ExpenseBudget = new mongoose.Schema(
 			required: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("expenseCategory"), id, 'expenseCategory')
+					fkAddValidator(mongoose.model('expenseCategory'), id, 'expenseCategory')
 				),
             },
 		},
@@ -40,7 +40,7 @@ const ExpenseBudget = new mongoose.Schema(
 			ref: 'user',
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("user"), id, 'user')
+					fkAddValidator(mongoose.model('user'), id, 'user')
 				),
             },
 		},
@@ -49,7 +49,7 @@ const ExpenseBudget = new mongoose.Schema(
 			ref: 'user',
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("user"), id, 'user')
+					fkAddValidator(mongoose.model('user'), id, 'user')
 				),
             },
 		},
@@ -60,7 +60,7 @@ const ExpenseBudget = new mongoose.Schema(
 			immutable: true,
 			validate: {
                 validator: (id) => (
-					fkAddValidator(mongoose.model("household"), id, 'household')
+					fkAddValidator(mongoose.model('household'), id, 'household')
 				),
             },
 		},

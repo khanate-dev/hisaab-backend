@@ -1,6 +1,6 @@
 class CustomError extends Error {
 	constructor(code, message) {
-		super("CustomError");
+		super('CustomError');
 		this.body = {
 			error: {
 				type: 'FKConflict',

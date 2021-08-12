@@ -73,11 +73,13 @@ UserHousehold.index(
 	},
 );
 
-UserHousehold.pre('findOneAndUpdate', function (next) {
+UserHousehold.pre('findOneAndUpdate', async function (next) {
 
-	const children = ['incomeBudget', 'income', 'expenseBudget', 'expense', 'userHousehold'];
+	if (this.getUpdate().isDefault) {
+		await mongoose.model('userHousehold').updateMany({ id: { $ne: this.getQuery()._id }}, { isDefault: false });
+	}
 
-	fkDeleteCascade('user', children, this.getQuery()._id, next);
+	next();
 
 });
 

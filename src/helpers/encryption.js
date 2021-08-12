@@ -1,7 +1,6 @@
 const crypto = require('crypto');
 
-const iterations = 1000000
-	, pepper = '4c62017971d2a8f68f86bc96b4b95e70556592c4';
+const { encryption: { iterations, pepper } } = require('./constants');
 
 /**
  * Given the plaintext password and the salt, creates and returns a hash.

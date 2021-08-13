@@ -79,6 +79,44 @@ UserHousehold.pre('findOneAndUpdate', async function (next) {
 		await mongoose.model('userHousehold').updateMany({ id: { $ne: this.getQuery()._id }}, { isDefault: false });
 	}
 
+	if (this.getUpdate().role && this.getUpdate().role !== 'admin') {
+
+		const existing = await (
+			mongoose
+				.model('userHousehold')
+				.findOne({ id: this.getQuery()._id })
+		);
+
+		if (existing.role !== 'admin') {
+
+			const hasAnotherAdmin = await (
+				mongoose
+					.model('userHousehold')
+					.findOne({
+						id: { $ne: this.getQuery()._id },
+						household: existing.household,
+						role: 'admin'
+					})
+			);
+
+			if (!hasAnotherAdmin) {
+				throw new Error('Household must have at least one admin user');
+			}
+
+		}
+
+	}
+
+	next();
+
+});
+
+UserHousehold.pre('findOneAndUpdate', async function (next) {
+
+	if (this.getUpdate().isDefault) {
+		await mongoose.model('userHousehold').updateMany({ id: { $ne: this.getQuery()._id }}, { isDefault: false });
+	}
+
 	next();
 
 });

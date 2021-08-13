@@ -14,7 +14,7 @@ const getOne = (request, response, tableName) => {
 
 	Model
 		.findOne(request.query)
-		select('-__v -createdAt -updatedAt')
+		.select('-__v -createdAt -updatedAt')
 		.populate(fkFields.join(' '), '-password -salt -__v -createdAt -updatedAt -email')
 		.then(doc => response.status(200).json(doc))
 		.catch(err => response.status(500).json(err));

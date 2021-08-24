@@ -153,7 +153,7 @@ const verifyToken = (req, res, next) => {
 					next();
 
 				})
-				.catch(error => res.status(403).json(error.message));
+				.catch(error => res.status(403).json(error));
 
 		});
 

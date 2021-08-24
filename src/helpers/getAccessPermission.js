@@ -154,6 +154,9 @@ module.exports = (request, user) => new Promise(async (resolve) => {
 		if (!householdUser) {
 			throw 'You are not a member of this household!';
 		}
+		else if (!householdUser.isActive) {
+			throw 'Your account is not activated for this household!';
+		}
 
 		const currentPermissions = {
 			all: {

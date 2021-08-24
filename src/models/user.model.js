@@ -23,6 +23,7 @@ const User = new mongoose.Schema( {
 		type: String,
 		enum: ['admin', 'user'],
 		required: true,
+		immutable: true,
 	},
 });
 

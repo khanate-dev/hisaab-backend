@@ -7,7 +7,7 @@ const { post : postUser } = require('./user.controller.js');
 const { isPasswordCorrect, getRandomString } =  require('../helpers/cryptography.js');
 const CustomError = require( '../helpers/errors/CustomError');
 const { jwtSecret } = require( '../helpers/constants');
-const hasAccessPermission = require('../helpers/hasAccessPermission');
+const getAccessPermission = require('../helpers/getAccessPermission');
 
 const signup = (req, res) => postUser(req, res, 'user');
 
@@ -32,7 +32,6 @@ const login = (req, res) => {
 				{ email: req.body.user }
 			],
 		})
-		.populate('userHousehold', '-__v -createdAt -updatedAt')
 		.then((user) => {
 
 			if (!user) {
@@ -48,9 +47,9 @@ const login = (req, res) => {
 				const csrf = getRandomString(25);
 
 				const jwtObject = {
+					_id: user._id,
 					username: user.username,
 					role: user.role,
-					households: user.households,
 					csrf: csrf,
 				};
 
@@ -130,8 +129,6 @@ const verifyToken = (req, res, next) => {
 		jwtSecret,
 		(error, token) => {
 
-			console.log(token);
-
 			if (error) {
 
 				if (error.name === 'TokenExpiredError') {
@@ -149,11 +146,9 @@ const verifyToken = (req, res, next) => {
 				return res.status(403).json('Missing Or Incorrect CSRF Token');
 			}
 
-			if (!hasAccessPermission(req, token)) {
-				return res.status(403).json('You Do Not Have Permission To Access This Route');
-			}
-
-			next();
+			getAccessPermission(req, token)
+				.then(() => next())
+				.catch(error => res.status(403).json(error));
 
 		});
 

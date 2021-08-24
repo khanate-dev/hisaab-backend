@@ -75,10 +75,6 @@ UserHousehold.index(
 
 UserHousehold.pre('findOneAndUpdate', async function (next) {
 
-	if (this.getUpdate().isDefault) {
-		await mongoose.model('userHousehold').updateMany({ id: { $ne: this.getQuery()._id }}, { isDefault: false });
-	}
-
 	if (this.getUpdate().role && this.getUpdate().role !== 'admin') {
 
 		const existing = await (
@@ -105,6 +101,10 @@ UserHousehold.pre('findOneAndUpdate', async function (next) {
 
 		}
 
+	}
+
+	if (this.getUpdate().isDefault) {
+		await mongoose.model('userHousehold').updateMany({ id: { $ne: this.getQuery()._id }}, { isDefault: false });
 	}
 
 	next();

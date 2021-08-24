@@ -8,11 +8,17 @@ const get = (req, res) => getAll(req, res, 'incomeBudget');
 
 const getOne = (req, res) => getByID(req, res, 'incomeBudget');
 
-const put = (req, res) => updateByID(req, res, 'incomeBudget');
+const put = (req, res) => {
+	req.body.lastEditBy = req.local.userID;
+	updateByID(req, res, 'incomeBudget');
+};
 
 const remove = (req, res) => deleteByID(req, res, 'incomeBudget');
 
-const post = (req, res) => create(req, res, 'incomeBudget');
+const post = (req, res) => {
+	req.body.addedBy = req.local.userID;
+	create(req, res, 'incomeBudget');
+};
 
 module.exports = {
 	get,

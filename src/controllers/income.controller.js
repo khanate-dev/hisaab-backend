@@ -20,11 +20,17 @@ const getByDateRoute = (req, res) => getByDate(req, res, 'income');
 
 const getOne = (req, res) => getByID(req, res, 'income');
 
-const put = (req, res) => updateByID(req, res, 'income');
+const put = (req, res) => {
+	req.body.lastEditBy = req.local.userID;
+	updateByID(req, res, 'income');
+};
 
 const remove = (req, res) => deleteByID(req, res, 'income');
 
-const post = (req, res) => create(req, res, 'income');
+const post = (req, res) => {
+	req.body.addedBy = req.local.userID;
+	create(req, res, 'income');
+};
 
 module.exports = {
 	get,

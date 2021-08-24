@@ -138,8 +138,6 @@ const verifyToken = (req, res, next) => {
 					res.status(500).json(error);
 				}
 
-				return;
-
 			}
 
 			if (req.method !== 'GET' && token.csrf !== req.headers.csrf) {
@@ -147,7 +145,12 @@ const verifyToken = (req, res, next) => {
 			}
 
 			getAccessPermission(req, token)
-				.then(() => next())
+				.then(() => {
+
+					req.local.userID = token._id;
+					next();
+
+				})
 				.catch(error => res.status(403).json(error));
 
 		});

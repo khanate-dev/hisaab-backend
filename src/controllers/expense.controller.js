@@ -22,11 +22,17 @@ const getByDateRoute = (req, res) => getByDate(req, res, 'expense');
 
 const getOne = (req, res) => getByID(req, res, 'expense');
 
-const put = (req, res) => updateByID(req, res, 'expense');
+const put = (req, res) => {
+	req.body.lastEditBy = req.local.userID;
+	updateByID(req, res, 'expense');
+};
 
 const remove = (req, res) => deleteByID(req, res, 'expense');
 
-const post = (req, res) => create(req, res, 'expense');
+const post = (req, res) => {
+	req.body.addedBy = req.local.userID;
+	create(req, res, 'expense');
+};
 
 module.exports = {
 	get,

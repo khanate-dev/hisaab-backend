@@ -10,4 +10,6 @@ router.post('/login', controller.login);
 
 router.post('/logout', controller.logout);
 
+router.get('/householdByInviteCode/:inviteCode', controller.householdByInviteCode);
+
 module.exports = router;

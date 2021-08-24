@@ -1,13 +1,15 @@
-const jwt = require( 'jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 const { mongoose } = require('../connection');
 
-const { post : postUser } = require('./user.controller.js');
+const { post: postUser } = require('./user.controller.js');
 
-const { isPasswordCorrect, getRandomString } =  require('../helpers/cryptography.js');
-const CustomError = require( '../helpers/errors/CustomError');
-const { jwtSecret } = require( '../helpers/constants');
+const { isPasswordCorrect, getRandomString } = require('../helpers/cryptography.js');
+const CustomError = require('../helpers/errors/CustomError');
+const { jwtSecret } = require('../helpers/constants');
 const getAccessPermission = require('../helpers/getAccessPermission');
+const getOne = require('../helpers/db/getOne');
+const { request } = require('express');
 
 const signup = (req, res) => postUser(req, res, 'user');
 
@@ -157,9 +159,28 @@ const verifyToken = (req, res, next) => {
 
 };
 
+const householdByInviteCode = (req, res) => {
+
+	if (!req.params.inviteCode) {
+		return res.status(400).send('Missing Invite Code');
+	}
+
+	const query = {
+		inviteCode: req.params.inviteCode,
+	};
+
+	mongoose.model('household')
+		.findOne(query)
+		.select('-__v -createdAt -updatedAt')
+		.then(doc => response.status(200).json(doc))
+		.catch(err => response.status(500).json(err));
+
+};
+
 module.exports = {
 	signup,
 	login,
 	logout,
 	verifyToken,
+	householdByInviteCode,
 };

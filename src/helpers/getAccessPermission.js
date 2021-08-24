@@ -73,7 +73,7 @@ const permissions = {
 	},
 };
 
-module.exports = (request, user) => new Promise(async (resolve) => {
+module.exports = (request, user) => new Promise(async (resolve, reject) => {
 
 	const route = request.baseUrl
 		, method = request.method.toLowerCase()
@@ -146,16 +146,16 @@ module.exports = (request, user) => new Promise(async (resolve) => {
 		}
 
 		if (!currentHousehold) {
-			throw 'You need to specify a household to access!';
+			reject('You need to specify a household to access!');
 		}
 
 		const householdUser = await mongoose.model('userHousehold').findOne({ household: currentHousehold, user: user._id });
 
 		if (!householdUser) {
-			throw 'You are not a member of this household!';
+			reject('You are not a member of this household!');
 		}
 		else if (!householdUser.isActive) {
-			throw 'Your account is not activated for this household!';
+			reject('Your account is not activated for this household!');
 		}
 
 		const currentPermissions = {
@@ -178,6 +178,6 @@ module.exports = (request, user) => new Promise(async (resolve) => {
 
 	}
 
-	throw 'You do not have access to this route!';
+	reject('You do not have access to this route!');
 
 });

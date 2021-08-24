@@ -149,7 +149,7 @@ const verifyToken = (req, res, next) => {
 			getAccessPermission(req, token)
 				.then(() => {
 
-					req.local.userID = token._id;
+					req.userID = token._id;
 					next();
 
 				})

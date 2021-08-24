@@ -21,14 +21,14 @@ const getByDateRoute = (req, res) => getByDate(req, res, 'income');
 const getOne = (req, res) => getByID(req, res, 'income');
 
 const put = (req, res) => {
-	req.body.lastEditBy = req.local.userID;
+	req.body.lastEditBy = req.userID;
 	updateByID(req, res, 'income');
 };
 
 const remove = (req, res) => deleteByID(req, res, 'income');
 
 const post = (req, res) => {
-	req.body.addedBy = req.local.userID;
+	req.body.addedBy = req.userID;
 	create(req, res, 'income');
 };
 

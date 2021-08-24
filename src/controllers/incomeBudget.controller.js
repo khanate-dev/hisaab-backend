@@ -9,14 +9,14 @@ const get = (req, res) => getAll(req, res, 'incomeBudget');
 const getOne = (req, res) => getByID(req, res, 'incomeBudget');
 
 const put = (req, res) => {
-	req.body.lastEditBy = req.local.userID;
+	req.body.lastEditBy = req.userID;
 	updateByID(req, res, 'incomeBudget');
 };
 
 const remove = (req, res) => deleteByID(req, res, 'incomeBudget');
 
 const post = (req, res) => {
-	req.body.addedBy = req.local.userID;
+	req.body.addedBy = req.userID;
 	create(req, res, 'incomeBudget');
 };
 

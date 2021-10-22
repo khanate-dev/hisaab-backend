@@ -1,4 +1,4 @@
-class CustomError extends Error {
+class FKConflictError extends Error {
 	constructor(code, message) {
 		super('CustomError');
 		this.body = {
@@ -11,4 +11,4 @@ class CustomError extends Error {
 	}
 }
 
-module.exports = CustomError;
+module.exports = FKConflictError;

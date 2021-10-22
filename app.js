@@ -34,7 +34,7 @@ app.use((req, _res, next) => {
 
 app.use(verifyToken);
 
-app.use(routes());
+app.use((_request, _route, next) => routes(next));
 
 // Handler for Error 404 - Resource Not Found
 app.use((_req, res, _next) => {

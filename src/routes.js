@@ -5,11 +5,9 @@ const router = express.Router();
 
 const { consoleFGGreen, consoleFGReset, consoleFGMagenta } = require('./helpers/constants');
 
-const mapRoutes = () => {
+const mapRoutes = (next) => {
 
-	const routeList = fs.readdirSync('./src/routes', {
-		encoding: 'utf-8',
-	});
+	const routeList = fs.readdirSync('./src/routes', { encoding: 'utf-8', });
 
 	console.log();
 
@@ -25,6 +23,8 @@ const mapRoutes = () => {
 	});
 
 	console.log();
+
+	if(routeMap.length === 0) return next();
 
 	return routeMap;
 

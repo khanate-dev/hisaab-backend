@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ResponseError = require( './errors/ResponseError');
+const FKConflictError = require( './errors/FKConflictError');
 
 /**
  * Given the model, id, and the child models, allows deletion only if the id is not referenced in child collections
@@ -29,7 +29,7 @@ module.exports = async (modelName, children, id, next) => {
 	const referenced = childResponse.filter(row => row);
 
 	if (referenced.length > 0) {
-		const error = new ResponseError(409, `ID ${id} Is Referenced In \`${referenced.join(', ')}\` And Can Not Be Removed`);
+		const error = new FKConflictError(409, `ID ${id} Is Referenced In \`${referenced.join(', ')}\` And Can Not Be Removed`);
 		return next(error);
 	}
 

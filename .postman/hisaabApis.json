@@ -1,0 +1,993 @@
+{
+  "info": {
+    "_postman_id": "f16dc4ca-d785-4824-abcd-453d9c603176",
+    "name": "Hisaab",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "IncomeCategory",
+      "item": [
+        {
+          "name": "get",
+          "_postman_id": "fba8c081-97a2-4298-8382-2a906f71826c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "getByID",
+          "_postman_id": "8b829124-931a-4ab0-8a75-a854280ec9ad",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/60f976c4d7906c3ad4a6110f"
+          },
+          "response": []
+        },
+        {
+          "name": "getFiltered",
+          "_postman_id": "ae9ad728-92e4-42ed-9d4f-2a09614ee60a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/?name=test1",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "test1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "post",
+          "_postman_id": "b9149c8f-98a5-4d22-8a17-07ba47da23bb",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"name\": \"test2\",\r\n\t\"description\": \"testDescription 1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "put",
+          "_postman_id": "988a17c2-ee25-47ac-be96-028762e404cf",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"description\": \"test 2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/60f9777685aa79107820efbe"
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "_postman_id": "8cfdef48-eff8-48b8-89b1-2f53ec3345c4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "/60f9a07f2bdb420aece0250e"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "f109bbc0-9039-499b-ab19-7685c042583b",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "321a0a0d-08ed-47b5-9e47-85aff8d37a8c",
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.url.update(",
+              "\t`${pm.variables.get('URL')}/incomeCategory${pm.request.url}`",
+              ")"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "e8331aaa-335f-4934-9982-baf095de9f22",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "signup",
+          "_postman_id": "1e494aa6-65c0-4dac-8a63-c8e3205bb442",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"username\": \"test\",\r\n\t\"email\": \"test@test.com\",\r\n\t\"password\": \"test\",\r\n    \"role\": \"admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "signup"
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "_postman_id": "5ef6c779-73c7-42f2-9410-66cf1c0fe1c2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"user\": \"test\",\r\n\t\"password\": \"test\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "login"
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "_postman_id": "792cd49e-6c4c-4a88-ae48-2ee1159aa47c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "logout"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "5c9d74f3-a448-4221-8515-267c8982f957",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "8de980cf-7a7b-4c32-bdc3-32a8823a879e",
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.url.update(",
+              "\t`${pm.variables.get('URL')}/auth/${pm.request.url}`",
+              ")"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "3fd5f7b0-ff76-46cd-9b74-69830ae1802a",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ExpenseCategory",
+      "item": [
+        {
+          "name": "get",
+          "_postman_id": "dc547ba3-b7b3-4d33-bd6c-c9a7777f74de",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "getByID",
+          "_postman_id": "955ecf4f-75de-468d-999b-ce2ca7c51571",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/60f97a1d2bd0ec0aac40c5ce"
+          },
+          "response": []
+        },
+        {
+          "name": "getFiltered",
+          "_postman_id": "7f77b8d2-08e9-4c92-9f4f-c0a4375dc3e3",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/?name=test1",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "test1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "post",
+          "_postman_id": "619c9042-d7fe-4d74-baec-872b957a5ae7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"name\": \"test2\",\r\n\t\"description\": \"testDescription 2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "put",
+          "_postman_id": "8fad12c9-9a92-4f21-9109-50b21e585a34",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"description\": \"test 2\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/60f97a1d2bd0ec0aac40c5ce"
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "_postman_id": "3c5e8690-5936-4992-98fa-bcc3d360076a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "/60f97a292bd0ec0aac40c5d2"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "8ae22374-85c5-474c-bb03-fcaf3d4104f0",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "a99781e2-0147-4dde-8bea-264aef01b0c3",
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.url.update(",
+              "\t`${pm.variables.get('URL')}/expenseCategory${pm.request.url}`",
+              ")"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "8a2d8f78-b34b-4e7d-ac05-3c50e23c05de",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "IncomeBudget",
+      "item": [
+        {
+          "name": "get",
+          "_postman_id": "ddfc35f2-767d-4308-8ff9-259fb228fe48",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "7",
+                  "description": "0-11",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "year",
+                  "value": "2021",
+                  "description": "2021",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getByID",
+          "_postman_id": "00922402-c1db-46cc-abb2-bb5032d6c263",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/60f97d54615f670f9c86d946"
+          },
+          "response": []
+        },
+        {
+          "name": "post",
+          "_postman_id": "0461aab1-deda-4839-8d28-baabce035142",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"incomeCategory\": \"60f9a07f2bdb420aece0250e\",\r\n\t\"year\": 2021,\r\n\t\"month\": 7,\r\n\t\"amount\": 500,\r\n\t\"description\": \"testDescription 1\",\r\n\t\"user\": \"60f968d8d9dc421b80ee4b6e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "put",
+          "_postman_id": "854dd513-3e58-45e9-b528-310b4ebbde85",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"amount\": 300,\r\n\t\"description\": \"test 3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/60f9a0922bdb420aece02515"
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "_postman_id": "00884815-ccb2-4708-80cb-f0a2a6350ae5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "/60f99df62c3bc029bc03fd1e"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "58b781d0-88ef-4cad-8285-c70e8d829269",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "bee7e5c8-e530-4b6d-bd56-acbf6f22000b",
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.url.update(",
+              "\t`${pm.variables.get('URL')}/incomeBudget${pm.request.url}`",
+              ")"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "cbf20165-cdc7-4b3a-8861-841bbe305c40",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "ExpenseBudget",
+      "item": [
+        {
+          "name": "get",
+          "_postman_id": "cea10689-6c33-46a0-9708-51fb7acb41b8",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "7",
+                  "description": "1-12",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "year",
+                  "value": "2021",
+                  "description": "2021",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getByID",
+          "_postman_id": "34a4b4e5-5b25-4ea6-b311-fb2e6a4694eb",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/60f9b888a1d8813cc460b7f8"
+          },
+          "response": []
+        },
+        {
+          "name": "getFiltered",
+          "_postman_id": "91543653-5610-4013-bffa-98663c26ae5b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/?amount=500",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "amount",
+                  "value": "500"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "post",
+          "_postman_id": "0b277afa-bc93-4a0d-b2ca-5e009d546b82",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"expenseCategory\": \"60f9b87ca1d8813cc460b7f6\",\r\n\t\"year\": 2021,\r\n\t\"month\": 7,\r\n\t\"amount\": 500,\r\n\t\"description\": \"testDescription 1\",\r\n\t\"user\": \"60f968d8d9dc421b80ee4b6e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "put",
+          "_postman_id": "64aff36b-1b68-4026-8715-55835ebbcb77",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"amount\": 300,\r\n\t\"description\": \"test 3\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/60f9b888a1d8813cc460b7f8"
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "_postman_id": "741e165a-4e47-4135-82c9-7894a10b8204",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "/60f9b81a03e28f1d943e8b9b"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "9cecacea-b748-49b5-aebf-7508b84d462a",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "a18c15a8-58cc-43e0-ac52-5f2b1dc2b109",
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.url.update(",
+              "\t`${pm.variables.get('URL')}/expenseBudget${pm.request.url}`",
+              ")"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "7a88d990-f2df-472c-877f-9f9ba2d2f96f",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Income",
+      "item": [
+        {
+          "name": "get",
+          "_postman_id": "c227a4ca-c2f2-43bd-850e-39ffeaf0d2ec",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "getByID",
+          "_postman_id": "3ff8a367-df21-4183-bb26-1ab9fe509728",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/60f9d0edaf54ae24fc422060"
+          },
+          "response": []
+        },
+        {
+          "name": "getFiltered",
+          "_postman_id": "a53ad108-a1f9-4fc4-9ad6-3c25a6a8f6cb",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/?date=2021-07-25T00:00:00.000Z",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "date",
+                  "value": "2021-07-25T00:00:00.000Z"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "post",
+          "_postman_id": "a117e0f0-4e82-411a-9514-7462121414fd",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"incomeCategory\": \"60f976c4d7906c3ad4a6110f\",\r\n\t\"date\": \"2021-07-23\",\r\n\t\"amount\": 230,\r\n\t\"description\": \"testDescription 1\",\r\n\t\"user\": \"60f968d8d9dc421b80ee4b6e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "put",
+          "_postman_id": "b8c31274-154e-4760-9848-781bd0a6908e",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"incomeCategory\": \"60f976c4d7906c3ad4a6110f\",\r\n\t\"date\": \"2021-07-25\",\r\n\t\"amount\": 250,\r\n\t\"description\": \"testDescription 2\",\r\n\t\"user\": \"60f968d8d9dc421b80ee4b6e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/60f9d0edaf54ae24fc422060"
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "_postman_id": "32b041e0-34e9-42d2-ae62-0043051cc859",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "/60f9d1aaaf54ae24fc42206f"
+          },
+          "response": []
+        },
+        {
+          "name": "getByDate",
+          "_postman_id": "8f2ee902-c989-4955-be78-fe1e52d9cd29",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/byDate/{ \"from\": { \"year\": 2020, \"month\": 1, \"day\": 15 } }",
+            "description": "the request parameter can be in the following formats:\n\nrecords for 2021:\n\n`{ \"year\": 2021 }` \n\n\nrecords for 01-2020:\n\n`{ \"year\": 2021, \"month\": 1 }` \n\n\nrecords 01-01-2020:\n\n`{ \"year\": 2021, \"month\": 1, day: 0 }` \n\n\nrecords between 01-01-2020 & 31-12-2021:\n\n`{ \"from\": { \"year\": 2020 }, \"to\" { \"year\": 2021 }}` \n\n\n\nrecords between 15-01-2020 & 20-02-2021:\n\n`{ \"from\": { \"year\": 2020, \"month\": 1, \"day\": 15 }, \"to\" { \"year\": 2021, \"month\": 2, \"day\": 20 }}` \n\n\nrecords between 15-01-2020 & now:\n\n`{ \"from\": { \"year\": 2020, \"month\": 1, \"day\": 15 } }` \n\n\nrecords between now && 15-01-2022:\n\n`{ \"to\": { \"year\": 2022, \"month\": 1, \"day\": 15 } }`"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "820fa9fb-84fd-4b36-81ef-15ca8870673f",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "6a1c1e0a-ae30-44a7-90ca-ed7bed2ab0ff",
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.url.update(",
+              "\t`${pm.variables.get('URL')}/income${pm.request.url}`",
+              ")"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "32833b1d-fe9b-4ae0-a811-0a2a6e15bbfd",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Expense",
+      "item": [
+        {
+          "name": "get",
+          "_postman_id": "da10c089-6493-4075-8cd5-14f45c3332f7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "getByID",
+          "_postman_id": "5f76eefb-6c2c-41d8-99f0-e24b22d28f7f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/60f9d22eaf54ae24fc42207d"
+          },
+          "response": []
+        },
+        {
+          "name": "getFiltered",
+          "_postman_id": "d121fe01-5296-4574-9ede-ba30291c0519",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "/?amount=230",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "amount",
+                  "value": "230"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "post",
+          "_postman_id": "b6eb5e7a-f8b7-4eee-8745-610715b49ac4",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"expenseCategory\": \"60f97a1d2bd0ec0aac40c5ce\",\r\n\t\"date\": \"2021-07-23\",\r\n\t\"amount\": 230,\r\n\t\"description\": \"testDescription 1\",\r\n\t\"user\": \"60f968d8d9dc421b80ee4b6e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/"
+          },
+          "response": []
+        },
+        {
+          "name": "put",
+          "_postman_id": "496dedf4-ea63-465d-a9e3-d135d5dd441f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n\t\"expenseCategory\": \"60f9a07f2bdb420aece0250e\",\r\n\t\"date\": \"2021-07-25\",\r\n\t\"amount\": 250,\r\n\t\"description\": \"testDescription 2\",\r\n\t\"user\": \"60f968d8d9dc421b80ee4b6e\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "/60f9d239af54ae24fc422081"
+          },
+          "response": []
+        },
+        {
+          "name": "delete",
+          "_postman_id": "89ea9fad-d204-4bed-8826-6949471d6403",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "/60f9d239af54ae24fc422081"
+          },
+          "response": []
+        },
+        {
+          "name": "getByDate",
+          "_postman_id": "c407663b-d0a2-4326-85bf-8174f49f8e57",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "/byDate/{\"year\": 2020}",
+            "description": "the request parameter can be in the following formats:\n\nrecords for 2021:\n\n`{ \"year\": 2021 }` \n\n\nrecords for 01-2020:\n\n`{ \"year\": 2021, \"month\": 1 }` \n\n\nrecords 01-01-2020:\n\n`{ \"year\": 2021, \"month\": 1, day: 0 }` \n\n\nrecords between 01-01-2020 & 31-12-2021:\n\n`{ \"from\": { \"year\": 2020 }, \"to\" { \"year\": 2021 }}` \n\n\n\nrecords between 15-01-2020 & 20-02-2021:\n\n`{ \"from\": { \"year\": 2020, \"month\": 1, \"day\": 15 }, \"to\" { \"year\": 2021, \"month\": 2, \"day\": 20 }}` \n\n\nrecords between 15-01-2020 & now:\n\n`{ \"from\": { \"year\": 2020, \"month\": 1, \"day\": 15 } }` \n\n\nrecords between now && 15-01-2022:\n\n`{ \"to\": { \"year\": 2022, \"month\": 1, \"day\": 15 } }`"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "cd368722-2cff-4c83-bbbb-db8c5e29ad41",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "a00d35ff-2347-4093-8ddc-3b2dc7a8f79b",
+            "type": "text/javascript",
+            "exec": [
+              "pm.request.url.update(",
+              "\t`${pm.variables.get('URL')}/expense${pm.request.url}`",
+              ")"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "121cae10-5d5e-4527-b86d-7ac406d0aea9",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": {
+      "value": "{{csrf}}",
+      "key": "csrf"
+    }
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "50f7936a-93b7-4e67-b9ce-7858939a1008",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "c5c37c94-84a6-4e60-ba0e-ba4a301d2e25",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
